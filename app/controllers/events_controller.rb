@@ -42,6 +42,18 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
+
+    if @event.only_woman? && current_user&.gender != 'female'
+      flash[:alert] = 'This event is only for women.'
+      redirect_to events_path and return
+    end
+
+    if @event.only_woman?
+      @can_join_event = current_user && !@event.attendees.include?(current_user) ? current_user.female? : false
+    else
+      @can_join_event = current_user && !@event.attendees.include?(current_user) ? true : false
+    end
+
   end
 
   def edit
@@ -60,6 +72,6 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event).permit(:title, :content, :held_at, :prefecture_id, :thumbnail)
+    params.require(:event).permit(:title, :content, :held_at, :prefecture_id, :thumbnail, :only_woman)
   end
 end

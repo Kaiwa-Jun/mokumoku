@@ -23,6 +23,9 @@
                     <% end %>
                   </span>
                 <% end %>
+                <% if @event.only_woman? %>
+                  <p class="card-text"><strong>女性限定</strong></p>
+                <% end %>
                 <span id="js-event-bookmark-<%= @event.id %>">
                   <% if current_user.bookmarked?(@event) %>
                     <%= render 'events/bookmarks/unbookmark', event: @event %>
