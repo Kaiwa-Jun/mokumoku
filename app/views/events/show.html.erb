@@ -16,15 +16,15 @@
             </h1>
             <% if logged_in? %>
               <div class="ms-auto">
+                <% if @event.only_woman? %>
+                  <p class="card-text"><strong>女性限定</strong></p>
+                <% end %>
                 <% if current_user.own?(@event) %>
                   <span class="me-2">
                     <%= link_to edit_event_path(@event) do  %>
                       <i class="bi bi-pencil"></i>
                     <% end %>
                   </span>
-                <% end %>
-                <% if @event.only_woman? %>
-                  <p class="card-text"><strong>女性限定</strong></p>
                 <% end %>
                 <span id="js-event-bookmark-<%= @event.id %>">
                   <% if current_user.bookmarked?(@event) %>
@@ -95,7 +95,7 @@
                               method: :delete,
                               data: { confirm: 'キャンセルします' }
                   %>
-                <% else %>
+                <% elsif !@event.only_woman? || (current_user.woman? && @event.only_woman?) %>
                   <%= link_to 'このもくもく会に参加する',
                               event_attendance_url(@event),
                               class: 'btn btn-primary',

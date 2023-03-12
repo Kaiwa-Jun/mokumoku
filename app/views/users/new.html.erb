@@ -33,7 +33,7 @@
             </div>
             <div class="mb-3">
               <%= f.label :gender %>
-              <%= f.select :gender, User.genders.keys.to_a.map { |gender| [User.human_attribute_name("gender.#{gender}"), gender] } %>
+              <%= f.select :gender, User.genders_i18n %>
             </div>
             <div class="mb-3">
               <div class="form-check">

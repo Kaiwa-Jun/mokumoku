@@ -10,7 +10,6 @@ class Event < ApplicationRecord
   has_many :attendees, through: :attendances, class_name: 'User', source: :user
   has_many :bookmarks, dependent: :destroy
   has_one_attached :thumbnail
-  # has_many :joinable_users, -> { where(gender: 'female') }, through: :bookmarks, class_name: 'User', source: :user
 
   scope :future, -> { where('held_at > ?', Time.current) }
   scope :past, -> { where('held_at <= ?', Time.current) }
@@ -30,18 +29,6 @@ class Event < ApplicationRecord
   def future?
     !past?
   end
-
-  # def only_woman?
-  #   user.female?
-  # end
-
-  # def joinable_users
-  #   if only_woman?
-  #     User.where(gender: 'female')
-  #   else
-  #     User.all
-  #   end
-  # end
 
   def only_woman?
     only_woman

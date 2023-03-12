@@ -43,17 +43,11 @@ class EventsController < ApplicationController
   def show
     @event = Event.find(params[:id])
 
-    if @event.only_woman? && current_user&.gender != 'female'
-      flash[:alert] = 'This event is only for women.'
-      redirect_to events_path and return
-    end
-
     if @event.only_woman?
-      @can_join_event = current_user && !@event.attendees.include?(current_user) ? current_user.female? : false
+      @can_join_event = current_user && current_user.woman? && !@event.attendees.include?(current_user) ? true : false
     else
       @can_join_event = current_user && !@event.attendees.include?(current_user) ? true : false
     end
-
   end
 
   def edit
